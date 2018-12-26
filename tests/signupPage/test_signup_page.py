@@ -18,11 +18,8 @@ class SignupTests(unittest.TestCase):
 
         signup_page.signup(email='jack.suze@gmail.com', password='123456', confirm_password='123456')
 
-        welcome_message_sign_up = driver.find_element(By.XPATH, "//div[@class='alert-notice'][contains(text(), 'Welcome! You have signed up successfully.')]")
-        if welcome_message_sign_up:
-            print("Sign up is successful")
-        else:
-            print("Sign up failed")
+        result = signup_page.validate_signup_successful()
+        assert result
 
         driver.close()
         driver.quit()
