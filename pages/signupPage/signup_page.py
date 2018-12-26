@@ -16,6 +16,7 @@ class SignupPage(SeleniumDriver):
     _password_input = "user_password"
     _confirm_password_input = "user_password_confirmation"
     _signup_button = "#new_user input[value='Sign up']"
+    _signup_welcome_text = "//div[@class='alert-notice'][contains(text(), 'Welcome! You have signed up successfully.')]"
 
     def get_email_input_autofocus(self):
         return self.driver.find_element(By.CSS_SELECTOR, value=self._email_input_autofocus)
@@ -43,3 +44,7 @@ class SignupPage(SeleniumDriver):
         self.enter_password(password=password)
         self.enter_confirm_password(confirm_password=confirm_password)
         self.click_signup_button()
+
+    def validate_signup_successful(self):
+        result = self.is_element_present(locator=self._signup_welcome_text, locator_type="xpath")
+        return result
