@@ -65,6 +65,15 @@ class SeleniumDriver():
             self.log.info(f'Cannot send data on element with locator {locator} locator type {locator_type}')
             print_stack()
 
+    def is_element_present(self, locator="", locator_type="id"):
+        try:
+            element = self.get_element(locator=locator, locator_type=locator_type)
+            print("element:-- ", element)
+            if element:
+                return True
+        except ValueError:
+            return False
+
 
     # getElementList
     # getUrlsList
