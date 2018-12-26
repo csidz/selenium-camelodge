@@ -5,7 +5,7 @@ import logging
 from selenium.webdriver.common.keys import Keys
 
 
-class SeleniumDriver():
+class DriverAPI():
 
     log = cl.custom_logger(log_level=logging.INFO)
 
@@ -13,6 +13,7 @@ class SeleniumDriver():
         self.driver = driver
 
     def get_by_type(self, locator_type):
+
         locator_type = locator_type.lower()
         if locator_type == "id":
             return By.ID
@@ -31,7 +32,7 @@ class SeleniumDriver():
         elif locator_type == "tag":
             return By.TAG_NAME
         else:
-            self.log.info(msg=f'Locator type {locator_type} not correct or supported')
+            self.log.info(msg=f"Locator type '{locator_type}' not correct or supported")
         return False
 
     def get_element(self, locator, locator_type="id"):
@@ -42,7 +43,7 @@ class SeleniumDriver():
             element = self.driver.find_element(by=by_type, value=locator)
             self.log.info(msg=f'Element with locator {locator} and locator type {locator_type} Found')
         except ValueError:
-            self.log.info(f'Element with locator {locator} and locator type {locator_type} NOT Found')
+            self.log.info(f"Element with locator '{locator}' and locator type '{locator_type}' NOT Found")
         return element
 
     def element_click(self, locator="", locator_type="id", element=None):
@@ -50,9 +51,9 @@ class SeleniumDriver():
             if locator:
                 element = self.get_element(locator=locator, locator_type=locator_type)
             element.click()
-            self.log.info(msg=f'Clicked on the element with locator {locator} and locator type {locator_type}')
+            self.log.info(msg=f"Clicked on the element with locator '{locator}' and locator type '{locator_type}'")
         except ValueError:
-            self.log.info(f'Cannot click on the element with locator {locator} and locator type {locator_type}')
+            self.log.info(msg=f"Cannot click on the element with locator '{locator}' and locator type '{locator_type}'")
             print_stack()
 
     def send_keys(self, data, locator="", locator_type="id", element=None):
@@ -60,9 +61,9 @@ class SeleniumDriver():
             if locator:
                 element = self.get_element(locator=locator, locator_type=locator_type)
             element.send_keys(data)
-            self.log.info(f'Sent data on element with locator {locator} locator type {locator_type}')
+            self.log.info(msg=f"Sent data on element with locator '{locator}' locator type '{locator_type}'")
         except ValueError:
-            self.log.info(f'Cannot send data on element with locator {locator} locator type {locator_type}')
+            self.log.info(msg=f"Cannot send data on element with locator '{locator}' locator type '{locator_type}'")
             print_stack()
 
     def is_element_present(self, locator="", locator_type="id"):
