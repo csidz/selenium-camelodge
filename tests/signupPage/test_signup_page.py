@@ -6,23 +6,21 @@ import time
 
 
 class SignupTests(unittest.TestCase):
+    base_url = "https://camelodge.com/"
+    driver = webdriver.Firefox()
+    driver.maximize_window()
+    driver.implicitly_wait(3)
+    driver.get(base_url)
 
     def test_signup_valid_creds(self):
-        base_url = "https://camelodge.com/"
-        driver = webdriver.Firefox()
-        driver.maximize_window()
-        driver.implicitly_wait(3)
-        driver.get(base_url)
-
-        signup_page = SignupPage(driver)
-
+        signup_page = SignupPage(self.driver)
         signup_page.signup(email='jack.suze@gmail.com', password='123456', confirm_password='123456')
 
         result = signup_page.validate_signup_successful()
         assert result
 
-        driver.close()
-        driver.quit()
+        self.driver.close()
+        self.driver.quit()
 
     # test_email_field_is_autofocussed
     # test_invalid_creds
