@@ -1,9 +1,8 @@
-from selenium import webdriver
 from selenium.webdriver.common.by import By
-from base.seleniumDriver import SeleniumDriver
+from pages.basePage import BasePage
 
 
-class SignupPage(SeleniumDriver):
+class SignupPage(BasePage):
 
     def __init__(self, driver):
         super().__init__(driver=driver)
