@@ -14,14 +14,14 @@ class WebDriverRoot():
             self.base_url = 'www.camelodge.com'
 
         if self.browser == 'firefox':
-            driver = webdriver.Firefox(executable_path='geckodriver 2')
+            driver = webdriver.Firefox()
         # Todo Edge browser
         # Todo Chrome browser
         # Todo Browserless
         elif self.browser == 'safari':
             driver = webdriver.Safari(executable_path='/Applications/Safari.app/Contents/MacOS/Safari')
         else:
-            driver = webdriver.Firefox(executable_path='geckodriver 2')
+            driver = webdriver.Firefox()
 
         driver.maximize_window()
         driver.implicitly_wait(3)
