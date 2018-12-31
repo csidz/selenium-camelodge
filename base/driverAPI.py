@@ -2,6 +2,8 @@ from selenium.webdriver.common.by import By
 import utilities.customLogger as cl
 from traceback import print_stack
 import logging
+import time
+import os
 from selenium.webdriver.common.keys import Keys
 
 
@@ -12,8 +14,24 @@ class DriverAPI():
     def __init__(self, driver):
         self.driver = driver
 
-    def get_by_type(self, locator_type):
+    # selenium by default supports only .png format
+    # full path should be given for the file name
+    def capture_screenshot(self, failure_msg):
+        file_name = failure_msg + "_" + str(round(time.time() * 1000)) + ".png"
+        current_directory = os.getcwd()
+        destination_directory_path = os.path.join(current_directory, "screenshots")
+        destination_file = os.path.join(destination_directory_path, file_name)
+        try:
+            if not os.path.exists(destination_directory_path):
+                os.makedirs(destination_directory_path)
+            self.driver.save_screenshot(destination_file)
+            self.log.info(msg=f'Screenshot has been saved to the following directory: {destination_directory_path} '
+                              f'with file name {file_name}')
+        except ValueError:
+            self.log.error("Error while capturing screenshot")
+            print_stack()
 
+    def get_by_type(self, locator_type):
         locator_type = locator_type.lower()
         if locator_type == "id":
             return By.ID
