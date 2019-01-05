@@ -49,5 +49,4 @@ class SignupPage(BasePage):
     def validate_signup_successful(self):
         self.capture_screenshot(failure_msg="Signup failed")
         result = self.is_element_present(locator=self._signup_welcome_text, locator_type="xpath")
-        # self.DriverAPI.capture_screenshot_on_test_fail(failure_msg="Signup failed")
         return result
