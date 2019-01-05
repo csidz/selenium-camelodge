@@ -5,7 +5,7 @@ import pytest_assume
 
 
 @pytest.mark.usefixtures("one_time_setup", "set_up")
-class SignupTests():
+class TestSignupTests(unittest.TestCase):
     @pytest.fixture(autouse=True)
     def classSetup(self, one_time_setup):
         self.signup_page = SignupPage(self.driver)
