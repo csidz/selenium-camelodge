@@ -4,7 +4,7 @@ from traceback import print_stack
 import logging
 import time
 import os
-from selenium.webdriver.common.keys import Keys
+import functools
 
 
 class DriverAPI():
@@ -16,8 +16,11 @@ class DriverAPI():
 
     # selenium by default supports only .png format
     # full path should be given for the file name
-    def capture_screenshot(self, failure_msg):
-        file_name = failure_msg + "_" + str(round(time.time() * 1000)) + ".png"
+    def capture_screenshot(self, failure_msg=None):
+        file_name = "screen.png"
+        if failure_msg is not None:
+            file_name = failure_msg + "_" + str(round(time.time() * 1000)) + ".png"
+
         current_directory = os.getcwd()
         destination_directory_path = os.path.join(current_directory, "screenshots")
         destination_file = os.path.join(destination_directory_path, file_name)
