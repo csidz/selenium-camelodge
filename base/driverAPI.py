@@ -16,11 +16,8 @@ class DriverAPI():
 
     # selenium by default supports only .png format
     # full path should be given for the file name
-    def capture_screenshot(self, failure_msg=None):
-        file_name = "screen.png"
-        if failure_msg is not None:
-            file_name = failure_msg + "_" + str(round(time.time() * 1000)) + ".png"
-
+    def capture_screenshot(self, failure_message):
+        file_name = failure_message + "_" + str(round(time.time() * 1000)) + ".png"
         current_directory = os.getcwd()
         destination_directory_path = os.path.join(current_directory, "screenshots")
         destination_file = os.path.join(destination_directory_path, file_name)
@@ -33,6 +30,10 @@ class DriverAPI():
         except ValueError:
             self.log.error("Error while capturing screenshot")
             print_stack()
+
+    def capture_screenshot_on_failure(self, result, failure_message):
+        if not result:
+            self.capture_screenshot(failure_message=failure_message)
 
     def get_by_type(self, locator_type):
         locator_type = locator_type.lower()
@@ -93,7 +94,7 @@ class DriverAPI():
             print("element:-- ", element)
             if element:
                 return True
-        except ValueError:
+        except:
             return False
 
 
