@@ -1,6 +1,5 @@
 from selenium.webdriver.common.by import By
 from pages.basePage import BasePage
-from base.driverAPI import DriverAPI
 
 
 class SignupPage(BasePage):
@@ -8,7 +7,6 @@ class SignupPage(BasePage):
     def __init__(self, driver):
         super().__init__(driver=driver)
         self.driver = driver
-        #self.DriverAPI = DriverAPI
 
     # LOCATORS
     _signup_link = "Sign Up"
@@ -46,7 +44,8 @@ class SignupPage(BasePage):
         self.enter_confirm_password(confirm_password=confirm_password)
         self.click_signup_button()
 
-    def validate_signup_successful(self):
-        self.capture_screenshot(failure_msg="Signup failed")
+    # VALIDATIONS
+    def validate_signup_successful_message(self):
         result = self.is_element_present(locator=self._signup_welcome_text, locator_type="xpath")
+        self.capture_screenshot_on_failure(result, failure_message="Signup Confirmation message not found")
         return result
