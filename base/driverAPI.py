@@ -2,7 +2,8 @@ from selenium.webdriver.common.by import By
 import utilities.customLogger as cl
 from traceback import print_stack
 import logging
-from selenium.webdriver.common.keys import Keys
+import time
+import os
 
 
 class DriverAPI():
@@ -12,8 +13,28 @@ class DriverAPI():
     def __init__(self, driver):
         self.driver = driver
 
-    def get_by_type(self, locator_type):
+    # selenium by default supports only .png format
+    # full path should be given for the file name
+    def capture_screenshot(self, failure_message):
+        file_name = failure_message + "_" + str(round(time.time() * 1000)) + ".png"
+        current_directory = os.getcwd()
+        destination_directory_path = os.path.join(current_directory, "screenshots")
+        destination_file = os.path.join(destination_directory_path, file_name)
+        try:
+            if not os.path.exists(destination_directory_path):
+                os.makedirs(destination_directory_path)
+            self.driver.save_screenshot(destination_file)
+            self.log.info(msg=f'Screenshot has been saved to the following directory: {destination_directory_path} '
+                              f'with file name {file_name}')
+        except ValueError:
+            self.log.error("Error while capturing screenshot")
+            #print_stack()
 
+    def capture_screenshot_on_failure(self, result, failure_message):
+        if not result:
+            self.capture_screenshot(failure_message=failure_message)
+
+    def get_by_type(self, locator_type):
         locator_type = locator_type.lower()
         if locator_type == "id":
             return By.ID
@@ -46,6 +67,15 @@ class DriverAPI():
             self.log.info(f"Element with locator '{locator}' and locator type '{locator_type}' NOT Found")
         return element
 
+    def get_page_text(self):
+        return self.driver.find_element_by_xpath("html").text
+
+    def get_page_title(self):
+        return self.driver.title
+
+    def get_url(self, url):
+        return self.driver.get(url=url)
+
     def element_click(self, locator="", locator_type="id", element=None):
         try:
             if locator:
@@ -54,7 +84,7 @@ class DriverAPI():
             self.log.info(msg=f"Clicked on the element with locator '{locator}' and locator type '{locator_type}'")
         except ValueError:
             self.log.info(msg=f"Cannot click on the element with locator '{locator}' and locator type '{locator_type}'")
-            print_stack()
+            #print_stack()
 
     def send_keys(self, data, locator="", locator_type="id", element=None):
         try:
@@ -72,8 +102,9 @@ class DriverAPI():
             print("element:-- ", element)
             if element:
                 return True
-        except ValueError:
+        except:
             return False
+
 
 
     # getElementList

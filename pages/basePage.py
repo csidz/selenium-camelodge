@@ -30,11 +30,24 @@ class BasePage(DriverAPI):
              title_to_validate: Title on the page that needs to be verified
          """
         try:
-            actual_title = self.getTitle()
+            actual_title = self.get_page_title()
             return self.util.verify_text_contains(actual_text=actual_title, expected_text=title_to_validate)
         except ValueError:
             self.log.error("Failed to get page title")
             print_stack()
             return False
 
+    def validate_page_text(self, text_to_validate):
+        """
+         Verify the page Text
 
+         Parameters:
+             text_to_validate: Text on the page that needs to be verified
+         """
+        try:
+            actual_text = self.get_page_text()
+            return self.util.verify_text_contains(actual_text=actual_text, expected_text=text_to_validate)
+        except ValueError:
+            self.log.error("Failed to get page text")
+            print_stack()
+            return False

@@ -1,4 +1,3 @@
-from selenium.webdriver.common.by import By
 from pages.basePage import BasePage
 
 
@@ -16,9 +15,6 @@ class SignupPage(BasePage):
     _confirm_password_input = "user_password_confirmation"
     _signup_button = "#new_user input[value='Sign up']"
     _signup_welcome_text = "//div[@class='alert-notice'][contains(text(), 'Welcome! You have signed up successfully.')]"
-
-    def get_email_input_autofocus(self):
-        return self.driver.find_element(By.CSS_SELECTOR, value=self._email_input_autofocus)
 
     # ACTIONS
     def click_signup_link(self):
@@ -44,6 +40,13 @@ class SignupPage(BasePage):
         self.enter_confirm_password(confirm_password=confirm_password)
         self.click_signup_button()
 
-    def validate_signup_successful(self):
+    # VALIDATIONS
+    def validate_signup_successful_message(self):
         result = self.is_element_present(locator=self._signup_welcome_text, locator_type="xpath")
+        self.capture_screenshot_on_failure(result, failure_message="Signup Confirmation message not found")
+        return result
+
+    def validate_autofocus_on_email(self):
+        result = self.is_element_present(locator=self._email_input_autofocus, locator_type="css")
+        self.capture_screenshot_on_failure(result, failure_message="Autofocus is not on Signup Email Field")
         return result

@@ -2,13 +2,6 @@ import pytest
 from base.webDriverRoot import WebDriverRoot
 
 
-@pytest.fixture()
-def set_up():
-    print("Running method level setup")
-    yield
-    print("Runnning method level teardown")
-
-
 @pytest.fixture(scope="class")
 def one_time_setup(request, browser, base_url):
     print("Running one time setup")
@@ -21,6 +14,13 @@ def one_time_setup(request, browser, base_url):
     yield driver
     driver.quit()
     print("Running one time tearDown")
+
+
+@pytest.fixture()
+def set_up(one_time_setup):
+    print("Running method level setup")
+    yield
+    print("Running method level teardown")
 
 
 def pytest_addoption(parser):
