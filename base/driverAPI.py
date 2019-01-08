@@ -4,7 +4,6 @@ from traceback import print_stack
 import logging
 import time
 import os
-import functools
 
 
 class DriverAPI():
@@ -29,7 +28,7 @@ class DriverAPI():
                               f'with file name {file_name}')
         except ValueError:
             self.log.error("Error while capturing screenshot")
-            print_stack()
+            #print_stack()
 
     def capture_screenshot_on_failure(self, result, failure_message):
         if not result:
@@ -68,6 +67,15 @@ class DriverAPI():
             self.log.info(f"Element with locator '{locator}' and locator type '{locator_type}' NOT Found")
         return element
 
+    def get_page_text(self):
+        return self.driver.find_element_by_xpath("html").text
+
+    def get_page_title(self):
+        return self.driver.title
+
+    def get_url(self, url):
+        return self.driver.get(url=url)
+
     def element_click(self, locator="", locator_type="id", element=None):
         try:
             if locator:
@@ -76,7 +84,7 @@ class DriverAPI():
             self.log.info(msg=f"Clicked on the element with locator '{locator}' and locator type '{locator_type}'")
         except ValueError:
             self.log.info(msg=f"Cannot click on the element with locator '{locator}' and locator type '{locator_type}'")
-            print_stack()
+            #print_stack()
 
     def send_keys(self, data, locator="", locator_type="id", element=None):
         try:
@@ -96,6 +104,7 @@ class DriverAPI():
                 return True
         except:
             return False
+
 
 
     # getElementList
