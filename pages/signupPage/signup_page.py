@@ -1,4 +1,5 @@
 from pages.basePage import BasePage
+import time
 
 
 class SignupPage(BasePage):
@@ -31,6 +32,11 @@ class SignupPage(BasePage):
 
     def click_signup_button(self):
         self.element_click(locator=self._signup_button, locator_type='css')
+
+    def clear_cookies(self):
+        self.driver.delete_all_cookies()
+        time.sleep(10)
+        self.driver.refresh()
 
     # CHAIN OF ACTIONS
     def signup(self, email=None, password=None, confirm_password=None):

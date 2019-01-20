@@ -18,9 +18,10 @@ def one_time_setup(request, browser, base_url):
 
 @pytest.fixture()
 def set_up(one_time_setup):
-    print("Running method level setup")
+    print("\nRunning method level setup")
     yield
-    print("Running method level teardown")
+    one_time_setup.driver.delete_all_cookies()
+    print("\nRunning method level teardown")
 
 
 def pytest_addoption(parser):
